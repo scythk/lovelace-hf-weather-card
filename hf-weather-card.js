@@ -138,10 +138,9 @@ class WeatherCardChart extends Polymer.Element {
         }
         .main {
           display: flex;
-          font-size: 3.5em;
+          font-size: 48px;
           align-items: center;
           line-height: 1em;
-          width: 50%;
         }
         .main ha-icon {
           --iron-icon-height: 72px;
@@ -156,28 +155,21 @@ class WeatherCardChart extends Polymer.Element {
           font-size: 24px;
         }
         .suggestion {
-          width:100%;
           cursor: pointer;
           display: flex;
-          font-size: 1em;
+          font-size: 14px;
           color: var(--secondary-text-color);
           justify-content: space-between;
-          margin: 5px 0px 5px 0px;
+        }
+        .suggestion div {
+          margin-left: 15px;
         }
         .attributes {
-          width: 50%;
           cursor: pointer;
+          display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 5px 0px 5px 0px;
-        }
-        .attributes div{
-          display: flex;
-        }
-        .attributes div div{
-          width: 50%;
-          margin: 5px 5px 0px 5px;
-          align-items: center;
+          margin: 5px 0px 10px 0px;
         }
         .chart-title {
           font-size: 16px;
@@ -189,10 +181,7 @@ class WeatherCardChart extends Polymer.Element {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          margin: 0 7% 0 7%;
-        }
-        .conditions div {
-          width: 13%;
+          margin: 0px 3px 0px 16px;
         }
         .aqi,
         .alarm {
@@ -229,12 +218,11 @@ class WeatherCardChart extends Polymer.Element {
           width: 2em;
           height: 2em;
           left: 0em;
-          padding-top: 0%;
         }
 
         .icon {
-          width: 100%;
-          padding-top: 100%;
+          width: 50px;
+          height: 50px;
           display: inline-block;
           vertical-align: middle;
           background-size: contain;
@@ -269,64 +257,44 @@ class WeatherCardChart extends Polymer.Element {
               <template is="dom-if" if="[[!tempObj]]">
                 <div on-click="_weatherAttr">[[roundNumber(weatherObj.attributes.temperature)]]<sup>[[getUnit('temperature')]]</sup></div>
               </template>
+              <template is="dom-if" if="[[weatherObj.attributes.alarm]]">
+                <div class="alarm" on-click="_weatherAttr">
+                  台风预警
+                </div>
+              </template>
             </div>
 
-            <div class="attributes">
-              <template is="dom-if" if="[[sunObj]]">
-              <div on-click="_sunAttr">
-                <div>
-                  <ha-icon icon="mdi:weather-sunset-up"></ha-icon>&nbsp;[[computeTime(sunObj.attributes.next_rising)]]
-                </div>
-                <div>
-                  <ha-icon icon="mdi:weather-sunset-down"></ha-icon>&nbsp;[[computeTime(sunObj.attributes.next_setting)]]
-                </div>
-              </div>
-              </template>
-              <div on-click="_weatherAttr">
-                <div>
-                  <ha-icon icon="hass:water-percent"></ha-icon>&nbsp;[[roundNumber(weatherObj.attributes.humidity)]] %
-                </div>
-                <div>
-                  <ha-icon icon="hass:gauge"></ha-icon>&nbsp;[[roundNumber(weatherObj.attributes.pressure)]] [[ll('uPress')]]
-                </div>
-              </div>
-              <div on-click="_weatherAttr">
-                <div>
-                  <ha-icon icon="hass:[[getWindDirIcon(windBearing)]]"></ha-icon>&nbsp;[[getWindDir(windBearing)]]
-                </div>
-                <div>
-                  <ha-icon icon="hass:weather-windy"></ha-icon>&nbsp;[[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
-                </div>
-              </div>
-            </div>
-            
-            <template is="dom-if" if="[[weatherObj.attributes.alarm]]">
-            <div class="alarm" on-click="_weatherAttr">
-              台风预警
-            </div>
-            </template>
             <div class="suggestion" on-click="_weatherAttr">
               <div>
+                <span> 舒适：[[getSuggestion("comf")]]</span><br>
+                <span> 穿衣：[[getSuggestion("drsg")]]</span><br>
                 <span> 空气：[[getSuggestion("air")]]</span><br>
-                <span> 舒适：[[getSuggestion("comf")]]</span>
-
+                <span> 感冒：[[getSuggestion("flu")]]	</span><br>	
               </div>
-              <div>
-
-                <span> 感冒：[[getSuggestion("flu")]]</span><br>
-                <span> 穿衣：[[getSuggestion("drsg")]]</span>
-              </div>
-              <div>
+              <div>          
                 <span> 紫外：[[getSuggestion("uv")]]</span><br>
-                <span> 运动：[[getSuggestion("sport")]]</span>	
-              </div>
-              <div>
-                <span> 旅游：[[getSuggestion("trav")]]</span><br>
-                <span> 洗车：[[getSuggestion("cw")]]</span>
+                <span> 运动：[[getSuggestion("sport")]]</span><br>	
+                <span> 旅游：[[getSuggestion("trav")]]</span><br>	
+                <span> 洗车：[[getSuggestion("cw")]]</span><br>
               </div>
             </div>
           </div>
-
+          <div class="attributes">
+            <div on-click="_weatherAttr">
+              <ha-icon icon="hass:water-percent"></ha-icon> [[roundNumber(weatherObj.attributes.humidity)]] %<br>
+              <ha-icon icon="hass:gauge"></ha-icon> [[roundNumber(weatherObj.attributes.pressure)]] [[ll('uPress')]]
+            </div>
+            <div on-click="_sunAttr">
+              <template is="dom-if" if="[[sunObj]]">
+                <ha-icon icon="mdi:weather-sunset-up"></ha-icon> [[computeTime(sunObj.attributes.next_rising)]]<br>
+                <ha-icon icon="mdi:weather-sunset-down"></ha-icon> [[computeTime(sunObj.attributes.next_setting)]]
+              </template>
+            </div>
+            <div on-click="_weatherAttr">
+              <ha-icon icon="hass:[[getWindDirIcon(windBearing)]]"></ha-icon> [[getWindDir(windBearing)]]<br>
+              <ha-icon icon="hass:weather-windy"></ha-icon> [[computeWind(weatherObj.attributes.wind_speed)]] [[ll('uSpeed')]]
+            </div>
+          </div>
           <template is="dom-if" if="[[hourlyForecast]]">
           <div class="chart-title">天气预报-小时</div>
             <ha-chart-base data="[[HourlyForecastChartData]]"></ha-chart-base>
@@ -334,6 +302,8 @@ class WeatherCardChart extends Polymer.Element {
               <template is="dom-repeat" items="[[hourlyForecast]]">
                 <div>
                   <i class="icon" style="background: none, url([[getWeatherIcon(item.condition)]]) no-repeat; background-size: contain;"></i>
+
+                  <div style="text-align: center;">[[computeProbablePrecipitation(item.probable_precipitation)]]</div>
                 </div>
               </template>
             </div>
@@ -345,6 +315,8 @@ class WeatherCardChart extends Polymer.Element {
               <template is="dom-repeat" items="[[dailyForecast]]">
                 <div>
                   <i class="icon" style="background: none, url([[getWeatherIcon(item.condition)]]) no-repeat; background-size: contain;"></i>
+
+                  <div style="text-align: center;">[[computeProbablePrecipitation(item.probable_precipitation)]]</div>
                 </div>
               </template>
             </div>
@@ -427,8 +399,7 @@ class WeatherCardChart extends Polymer.Element {
 
   set hass(hass) {
     this._hass = hass;
-    // this.lang = this._hass.selectedLanguage || this._hass.language;
-    this.lang = 'zh-Hans';
+    this.lang = this._hass.selectedLanguage || this._hass.language;
     this.weatherObj = this.config.entity in hass.states ? hass.states[this.config.entity] : null;
     this.sunObj = 'sun.sun' in hass.states ? hass.states['sun.sun'] : null;
     this.tempObj = this.config.temp in hass.states ? hass.states[this.config.temp] : null;
@@ -522,26 +493,22 @@ class WeatherCardChart extends Polymer.Element {
       return [];
     }
     var data = forecastData.slice(0,9);
-    // var locale = this._hass.selectedLanguage || this._hass.language;
-    var locale = 'zh-Hans';
+    var locale = this._hass.selectedLanguage || this._hass.language;
     var tempUnit = this._hass.config.unit_system.temperature;
     var lengthUnit = this._hass.config.unit_system.length;
     var precipUnit = lengthUnit === 'km' ? this.ll('uPrecip') : 'in';
-    var popUnit = '%';
     var i;
 
     var dateTime = [];
     var tempHigh = [];
     var tempLow = [];
     var precip = [];
-    var pop = [];
     for (i = 0; i < data.length; i++) {
       var d = data[i];
       dateTime.push(new Date(Date.parse(d.datetime.replace(/-/g, '/'))));
       tempHigh.push(d.temperature);
       tempLow.push(d.templow);
       precip.push(d.precipitation);
-      pop.push(d.probable_precipitation);
     }
     var style = getComputedStyle(document.body);
     var textColor = style.getPropertyValue('--primary-text-color');
@@ -574,28 +541,15 @@ class WeatherCardChart extends Polymer.Element {
             fill: false,
           },
           {
-            label: this.ll('pop'),
-            type: 'bar',
-            data: pop,
-            yAxisID: 'PopAxis',
-          },
-          {
             label: this.ll('precip'),
             type: 'bar',
             data: precip,
             yAxisID: 'PrecipAxis',
           },
+
         ]
       },
       options: {
-        // layout: {
-        //   padding: {
-        //     left: 5,
-        //     right: 0,
-        //     top: 0,
-        //     bottom: 0
-        //   }
-        // },
         animation: {
           duration: 300,
           easing: 'linear',
@@ -609,14 +563,9 @@ class WeatherCardChart extends Polymer.Element {
             ctx.font = Chart.helpers.fontString(fontSize, fontStyle, fontFamily);
             ctx.textAlign = 'center';
             ctx.textBaseline = 'bottom';
-            var meta = chartInstance.controller.getDatasetMeta(3);
+            var meta = chartInstance.controller.getDatasetMeta(2);
             meta.data.forEach(function (bar, index) {
-              var data = (Math.round((chartInstance.data.datasets[3].data[index]) * 10) / 10).toFixed(1);
-              ctx.fillText(data, bar._model.x, bar._model.y - 5);
-            });
-            var meta2 = chartInstance.controller.getDatasetMeta(2);
-            meta2.data.forEach(function (bar, index) {
-              var data = chartInstance.data.datasets[2].data[index] + '%';
+              var data = (Math.round((chartInstance.data.datasets[2].data[index]) * 10) / 10).toFixed(1);
               ctx.fillText(data, bar._model.x, bar._model.y - 5);
             });
           },
@@ -626,7 +575,6 @@ class WeatherCardChart extends Polymer.Element {
         },
         scales: {
           xAxes: [{
-            offset: true,
             type: 'time',
             maxBarThickness: 15,
             display: false,
@@ -639,13 +587,11 @@ class WeatherCardChart extends Polymer.Element {
           },
           {
             id: 'DateAxis',
-            offset: true,
             position: 'top',
             gridLines: {
               display: true,
               drawBorder: false,
               color: dividerColor,
-              offsetGridLines: true,
             },
             ticks: {
               display: true,
@@ -656,9 +602,8 @@ class WeatherCardChart extends Polymer.Element {
               callback: function(value, index, values) {
                 var data = value.toLocaleDateString(locale,
                   { weekday: 'short' });
-                var time = value.toLocaleTimeString('en',
+                var time = value.toLocaleTimeString(locale,
                   { hour: 'numeric' });
-
                 if (mode == 'hourly') {
                   return time;
                 }
@@ -702,25 +647,6 @@ class WeatherCardChart extends Polymer.Element {
             afterFit: function(scaleInstance) {
               scaleInstance.width = 15;
             },
-          },
-          {
-            id: 'PopAxis',
-            position: 'right',
-            gridLines: {
-              display: false,
-              drawBorder: false,
-              color: dividerColor,
-            },
-            ticks: {
-              display: false,
-              min: 0,
-              // max: 100,
-              suggestedMax: 110,
-              fontColor: textColor,
-            },
-            afterFit: function(scaleInstance) {
-              scaleInstance.width = 15;
-            },
           }],
         },
         tooltips: {
@@ -739,12 +665,9 @@ class WeatherCardChart extends Polymer.Element {
             },
             label: function(tooltipItems, data) {
               var label = data.datasets[tooltipItems.datasetIndex].label || '';
-              if (data.datasets[3].label == label) {
+              if (data.datasets[2].label == label) {
                 return label + ': ' + (tooltipItems.yLabel ?
                   (tooltipItems.yLabel + ' ' + precipUnit) : ('0 ' + precipUnit));
-              }else if(data.datasets[2].label == label){
-                return label + ': ' + (tooltipItems.yLabel ?
-                  (tooltipItems.yLabel + ' ' + popUnit) : ('0 ' + pop));
               }
               return label + ': ' + tooltipItems.yLabel + ' ' + tempUnit;
             },
@@ -787,4 +710,4 @@ class WeatherCardChart extends Polymer.Element {
 }
 
 
-customElements.define('hf_weather-card', WeatherCardChart);
+customElements.define('hf-weather-card', WeatherCardChart);

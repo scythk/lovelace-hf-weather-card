@@ -1,4 +1,12 @@
+# 和风天气卡片
+[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg)](https://github.com/custom-components/hacs)
+[![Stable](https://img.shields.io/github/v/release/scythk/lovelace-hf-weather-card)](https://github.com/scythk/lovelace-hf-weather-card/releases/latest)
+
 ### 更新日志 ###
+- 2022-07-05
+1. Splitted custom_component and lovelace card.
+2. HACS compatibility.
+
 - 2019-08-23
 1. 增加一个新样式，降水概率以柱形图显示，优化图形、文字排版，将`hf_weather-card_new.js`改名后覆盖`hf_weather-card.js`即可使用。注意这个样式建议使用PC版chrome浏览器观看，在手机浏览器上横坐标过窄会导致图形位置有偏差（应该chart.js的锅）。
 

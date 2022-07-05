@@ -337,4 +337,4 @@ class MoreInfoWeather extends Polymer.Element {
   }
 }
 
-customElements.define("hf_weather-more-info", MoreInfoWeather);
+customElements.define("hf-weather-more-info", MoreInfoWeather);
